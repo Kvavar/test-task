@@ -1,4 +1,4 @@
-﻿namespace SodaMachine
+﻿namespace SodaMachine.UserCommands
 {
     public class CommandResult
     {

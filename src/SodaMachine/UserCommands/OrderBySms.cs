@@ -1,8 +1,8 @@
-﻿namespace SodaMachine
+﻿namespace SodaMachine.UserCommands
 {
-    public class OrderByCash : Command
+    public class OrderBySms : UserCommand
     {
-        public OrderByCash(string order)
+        public OrderBySms(string order)
         {
             Order = order.ToLowerInvariant();
         }

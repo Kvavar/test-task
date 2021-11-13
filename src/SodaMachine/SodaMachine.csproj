@@ -8,8 +8,8 @@
     <ProjectGuid>{9DFC3066-31E8-4483-A3EA-421E68B5CD14}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ConsoleApplication1</RootNamespace>
-    <AssemblyName>ConsoleApplication1</AssemblyName>
+    <RootNamespace>SodaMachine</RootNamespace>
+    <AssemblyName>SodaMachine</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -47,21 +47,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Command.cs" />
-    <Compile Include="CommandParser.cs" />
-    <Compile Include="CommandResult.cs" />
-    <Compile Include="Insert.cs" />
-    <Compile Include="IUserInterface.cs" />
-    <Compile Include="ParseResult.cs" />
-    <Compile Include="Stop.cs" />
-    <Compile Include="UserInterface.cs" />
-    <Compile Include="OrderByCash.cs" />
-    <Compile Include="OrderBySms.cs" />
+    <Compile Include="UserCommands\Command.cs" />
+    <Compile Include="CommandParser\CommandParser.cs" />
+    <Compile Include="UserCommands\CommandResult.cs" />
+    <Compile Include="UserCommands\Insert.cs" />
+    <Compile Include="UserInterface\IUserInterface.cs" />
+    <Compile Include="CommandParser\ParseResult.cs" />
+    <Compile Include="UserCommands\Stop.cs" />
+    <Compile Include="UserInterface\UserInterface.cs" />
+    <Compile Include="UserCommands\OrderByCash.cs" />
+    <Compile Include="UserCommands\OrderBySms.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Recall.cs" />
+    <Compile Include="UserCommands\Recall.cs" />
     <Compile Include="SodaMachine.cs" />
+    <Compile Include="Validation\InventoryValidator.cs" />
+    <Compile Include="Validation\ValidationResult.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

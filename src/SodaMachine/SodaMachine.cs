@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using SodaMachine.UserCommands;
+using SodaMachine.UserInterface;
+using SodaMachine.Validation;
 
 namespace SodaMachine
 {
@@ -24,22 +27,10 @@ namespace SodaMachine
         /// <param name="prices"></param>
         public void LoadPrices(Dictionary<string, decimal> prices)
         {
-            if (prices == null || prices.Count < 1)
-                throw new ArgumentException("Prices cannot be empty", nameof(prices));
-
-            foreach (var price in prices)
+            var validationResult = InventoryValidator.ValidatePrices(prices);
+            if(!validationResult.IsValid)
             {
-                if (price.Value < 0)
-                    throw new ArgumentException($"Inventory item price must be greater than zero, was {price.Value}.");
-            }
-
-            if (_inventory != null)
-            {
-                foreach (var item in _inventory)
-                {
-                    if (!_prices.ContainsKey(item.Key))
-                        _ui.Warn($"Price for {item.Key} not found in the price list. Item will be available only for SMS purchase.");
-                }
+                throw new ArgumentException(validationResult.Message);
             }
 
             _prices = prices;
@@ -47,16 +38,10 @@ namespace SodaMachine
 
         public void LoadInventory(Dictionary<string, int> inventory)
         {
-            if (inventory == null || inventory.Count < 1)
-                throw new ArgumentException("Inventory cannot be empty", nameof(inventory));
-
-            foreach (var item in inventory)
+            var validationResult = InventoryValidator.ValidateInventory(inventory);
+            if (!validationResult.IsValid)
             {
-                if(!_prices.ContainsKey(item.Key))
-                    _ui.Warn($"Price for {item.Key} not found in the price list. Item will be available only for SMS purchase.");
-
-                if (item.Value < 1)
-                    throw new ArgumentException($"Inventory item amount must be greater than zero, was {item.Value}.");
+                throw new ArgumentException(validationResult.Message);
             }
 
             _inventory = inventory;
@@ -154,7 +139,7 @@ namespace SodaMachine
 
                 var input = Console.ReadLine();
 
-                var parseResult = CommandParser.Parse(input);
+                var parseResult = CommandParser.CommandParser.Parse(input);
 
                 if (!parseResult.IsSuccess)
                 {

@@ -20,7 +20,7 @@ namespace SodaMachine
                 { "fanta", 15 }
             };
 
-            var ui = new UserInterface();
+            var ui = new UserInterface.UserInterface();
 
             var sodaMachine = new SodaMachine(inventory, prices, ui);
 

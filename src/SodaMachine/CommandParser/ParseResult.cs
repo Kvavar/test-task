@@ -1,4 +1,6 @@
-﻿namespace SodaMachine
+﻿using SodaMachine.UserCommands;
+
+namespace SodaMachine.CommandParser
 {
     public class ParseResult
     {
@@ -7,7 +9,7 @@
             IsSuccess = isSuccess;
         }
 
-        private ParseResult(bool isSuccess, Command command) : this(isSuccess)
+        private ParseResult(bool isSuccess, UserCommand command) : this(isSuccess)
         {
             Command = command;
         }
@@ -18,10 +20,10 @@
         }
 
         public bool IsSuccess { get; }
-        public Command Command { get; }
+        public UserCommand Command { get; }
         public string Message { get; }
 
-        public static ParseResult Success(Command command)
+        public static ParseResult Success(UserCommand command)
         {
             return new ParseResult(true, command);
         }
