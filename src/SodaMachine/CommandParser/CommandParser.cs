@@ -1,7 +1,7 @@
 ﻿using System;
-using SodaMachine.UserCommands;
+using SodaMachine.Core.UserCommands;
 
-namespace SodaMachine.CommandParser
+namespace SodaMachine.Core.CommandParser
 {
     public class CommandParser
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SodaMachine.Validation
+namespace SodaMachine.Core.Validation
 {
     public static class InventoryValidator
     {

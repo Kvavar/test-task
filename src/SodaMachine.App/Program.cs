@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using SodaMachine.Core;
+using SodaMachine.Core.UserInterface;
 
-namespace SodaMachine
+namespace SodaMachine.App
 {
-    internal class Program
+    class Program
     {
-        private static void Main(string[] args)
+        static void Main(string[] args)
         {
             var inventory = new Dictionary<string, int>
             {
@@ -20,9 +22,9 @@ namespace SodaMachine
                 { "fanta", 15 }
             };
 
-            var ui = new UserInterface.UserInterface();
+            var ui = new UserInterface();
 
-            var sodaMachine = new SodaMachine(inventory, prices, ui);
+            var sodaMachine = new Machine(inventory, prices, ui);
 
             sodaMachine.Start();
         }

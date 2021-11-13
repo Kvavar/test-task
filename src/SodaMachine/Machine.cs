@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using SodaMachine.UserCommands;
-using SodaMachine.UserInterface;
+using SodaMachine.Core.UserCommands;
+using SodaMachine.Core.UserInterface;
 
-namespace SodaMachine
+namespace SodaMachine.Core
 {
-    public class SodaMachine
+    public class Machine 
     {
         private readonly IUserInterface _ui;
         private readonly object _purchaseLocker = new object();
         private decimal _balance;
         private readonly Inventory _inventory;
 
-        public SodaMachine(Dictionary<string, int> inventory, Dictionary<string, decimal> prices, IUserInterface ui)
+        public Machine(Dictionary<string, int> inventory, Dictionary<string, decimal> prices, IUserInterface ui)
         {
             _ui = ui;
             _inventory = new Inventory(inventory, prices);

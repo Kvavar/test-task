@@ -1,6 +1,6 @@
-﻿using SodaMachine.UserCommands;
+﻿using SodaMachine.Core.UserCommands;
 
-namespace SodaMachine.UserInterface
+namespace SodaMachine.Core.UserInterface
 {
     public interface IUserInterface
     {

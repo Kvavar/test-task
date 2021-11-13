@@ -3,18 +3,42 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SodaMachine", "SodaMachine\SodaMachine.csproj", "{9DFC3066-31E8-4483-A3EA-421E68B5CD14}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SodaMachine.Core", "SodaMachine\SodaMachine.Core.csproj", "{9DFC3066-31E8-4483-A3EA-421E68B5CD14}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SodaMachine.UnitTests", "SodaMachine.UnitTests\SodaMachine.UnitTests.csproj", "{FCB8B88E-ED0A-4E0F-8C12-263472420E3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SodaMachine.App", "SodaMachine.App\SodaMachine.App.csproj", "{AD2FCE0C-DE9C-4548-8ED7-4A05F76731D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9DFC3066-31E8-4483-A3EA-421E68B5CD14}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{9DFC3066-31E8-4483-A3EA-421E68B5CD14}.Debug|x86.ActiveCfg = Debug|x86
 		{9DFC3066-31E8-4483-A3EA-421E68B5CD14}.Debug|x86.Build.0 = Debug|x86
+		{9DFC3066-31E8-4483-A3EA-421E68B5CD14}.Release|Any CPU.ActiveCfg = Release|x86
 		{9DFC3066-31E8-4483-A3EA-421E68B5CD14}.Release|x86.ActiveCfg = Release|x86
 		{9DFC3066-31E8-4483-A3EA-421E68B5CD14}.Release|x86.Build.0 = Release|x86
+		{FCB8B88E-ED0A-4E0F-8C12-263472420E3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCB8B88E-ED0A-4E0F-8C12-263472420E3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCB8B88E-ED0A-4E0F-8C12-263472420E3F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FCB8B88E-ED0A-4E0F-8C12-263472420E3F}.Debug|x86.Build.0 = Debug|Any CPU
+		{FCB8B88E-ED0A-4E0F-8C12-263472420E3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCB8B88E-ED0A-4E0F-8C12-263472420E3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCB8B88E-ED0A-4E0F-8C12-263472420E3F}.Release|x86.ActiveCfg = Release|Any CPU
+		{FCB8B88E-ED0A-4E0F-8C12-263472420E3F}.Release|x86.Build.0 = Release|Any CPU
+		{AD2FCE0C-DE9C-4548-8ED7-4A05F76731D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD2FCE0C-DE9C-4548-8ED7-4A05F76731D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD2FCE0C-DE9C-4548-8ED7-4A05F76731D3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AD2FCE0C-DE9C-4548-8ED7-4A05F76731D3}.Debug|x86.Build.0 = Debug|Any CPU
+		{AD2FCE0C-DE9C-4548-8ED7-4A05F76731D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD2FCE0C-DE9C-4548-8ED7-4A05F76731D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD2FCE0C-DE9C-4548-8ED7-4A05F76731D3}.Release|x86.ActiveCfg = Release|Any CPU
+		{AD2FCE0C-DE9C-4548-8ED7-4A05F76731D3}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

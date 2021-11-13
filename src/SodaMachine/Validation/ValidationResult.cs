@@ -1,4 +1,4 @@
-﻿namespace SodaMachine.Validation
+﻿namespace SodaMachine.Core.Validation
 {
     public class ValidationResult
     {

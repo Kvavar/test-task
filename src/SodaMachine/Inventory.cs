@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using SodaMachine.Validation;
+using SodaMachine.Core.Validation;
 
-namespace SodaMachine
+namespace SodaMachine.Core
 {
     public class Inventory
     {
