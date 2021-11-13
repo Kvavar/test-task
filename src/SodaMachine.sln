@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SodaMachine.Core", "SodaMachine\SodaMachine.Core.csproj", "{9DFC3066-31E8-4483-A3EA-421E68B5CD14}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SodaMachine.Core", "SodaMachine.Core\SodaMachine.Core.csproj", "{9DFC3066-31E8-4483-A3EA-421E68B5CD14}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SodaMachine.UnitTests", "SodaMachine.UnitTests\SodaMachine.UnitTests.csproj", "{FCB8B88E-ED0A-4E0F-8C12-263472420E3F}"
 EndProject

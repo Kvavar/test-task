@@ -50,7 +50,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SodaMachine\SodaMachine.Core.csproj">
+    <ProjectReference Include="..\SodaMachine.Core\SodaMachine.Core.csproj">
       <Project>{9dfc3066-31e8-4483-a3ea-421e68b5cd14}</Project>
       <Name>SodaMachine.Core</Name>
     </ProjectReference>

@@ -10,7 +10,7 @@ namespace SodaMachine.UnitTests
     {
         private Machine _machine;
 
-        Dictionary<string, decimal> _prices = new Dictionary<string, decimal>
+        readonly Dictionary<string, decimal> _prices = new Dictionary<string, decimal>
         {
             { "coke", 20 },
             { "sprite", 15 },
