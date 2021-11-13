@@ -1,6 +1,6 @@
 ﻿namespace SodaMachine.UserCommands
 {
-    public class OrderByCash : UserCommand
+    public sealed class OrderByCash : UserCommand
     {
         public OrderByCash(string order)
         {

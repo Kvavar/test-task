@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using SodaMachine.UserCommands;
 using SodaMachine.UserInterface;
-using SodaMachine.Validation;
 
 namespace SodaMachine
 {
@@ -11,40 +10,12 @@ namespace SodaMachine
         private readonly IUserInterface _ui;
         private readonly object _purchaseLocker = new object();
         private decimal _balance;
-        private Dictionary<string, int> _inventory;
-        private Dictionary<string, decimal> _prices;
+        private readonly Inventory _inventory;
 
         public SodaMachine(Dictionary<string, int> inventory, Dictionary<string, decimal> prices, IUserInterface ui)
         {
             _ui = ui;
-            LoadPrices(prices);
-            LoadInventory(inventory);
-        }
-
-        /// <summary>
-        /// Allows to update prices for existing inventory as well as pre-load prices
-        /// </summary>
-        /// <param name="prices"></param>
-        public void LoadPrices(Dictionary<string, decimal> prices)
-        {
-            var validationResult = InventoryValidator.ValidatePrices(prices);
-            if(!validationResult.IsValid)
-            {
-                throw new ArgumentException(validationResult.Message);
-            }
-
-            _prices = prices;
-        }
-
-        public void LoadInventory(Dictionary<string, int> inventory)
-        {
-            var validationResult = InventoryValidator.ValidateInventory(inventory);
-            if (!validationResult.IsValid)
-            {
-                throw new ArgumentException(validationResult.Message);
-            }
-
-            _inventory = inventory;
+            _inventory = new Inventory(inventory, prices);
         }
 
         public CommandResult InsertMoney(decimal amount)
@@ -61,21 +32,26 @@ namespace SodaMachine
         {
             lock (_purchaseLocker)
             {
-                if (!CheckAvailability(order)) 
-                    return CommandResult.Fail($"No {order} available in the inventory.");
+                string message;
 
-                if(!_prices.TryGetValue(order, out var price))
-                    return CommandResult.Fail($"Only SMS order is available for {order}.");
+                if (!_inventory.TryGetPriceFor(order, out var price))
+                {
+                    message = _inventory.CheckAvailability(order) ? $"Only SMS order is available for {order}." : $"No {order} available in the inventory.";
+
+                    return CommandResult.Fail(message);
+                }
 
                 if (_balance < price)
                 {
                     return CommandResult.Fail($"Need {price - _balance} more.");
                 }
 
-                _inventory[order] -= 1;
+                if (!_inventory.TryTake(order, out  message))
+                    return CommandResult.Fail(message);
+
                 _balance -= price;
 
-                var message = $"Giving {order} out.";
+                message = $"Giving {order} out.";
 
                 if (_balance > 0)
                     message = $"{message} Giving  {_balance}  out in change.";
@@ -90,12 +66,10 @@ namespace SodaMachine
         {
             lock (_purchaseLocker)
             {
-                if (!CheckAvailability(order))
-                    return  CommandResult.Fail($"No {order} available in the inventory.");
+                if (!_inventory.TryTake(order, out var message))
+                    return  CommandResult.Fail(message);
 
-                _inventory[order] -= 1;
-
-                var message = $"Giving {order} out.";
+                message = $"Giving {order} out.";
 
                 return CommandResult.Success(message);
             }
@@ -113,11 +87,7 @@ namespace SodaMachine
             }
         }
 
-        private bool CheckAvailability(string order)
-        {
-            return _inventory.TryGetValue(order, out var available) && available >= 1;
-        }
-
+        
         /// <summary>
         /// This is the starter method for the machine
         /// </summary>

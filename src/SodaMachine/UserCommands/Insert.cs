@@ -1,6 +1,6 @@
 ﻿namespace SodaMachine.UserCommands
 {
-    public class Insert : UserCommand
+    public sealed class Insert : UserCommand
     {
         public Insert(decimal amount)
         {

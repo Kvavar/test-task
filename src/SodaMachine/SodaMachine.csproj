@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Inventory.cs" />
     <Compile Include="UserCommands\Command.cs" />
     <Compile Include="CommandParser\CommandParser.cs" />
     <Compile Include="UserCommands\CommandResult.cs" />

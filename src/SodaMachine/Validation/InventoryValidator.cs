@@ -2,7 +2,7 @@
 
 namespace SodaMachine.Validation
 {
-    public class InventoryValidator
+    public static class InventoryValidator
     {
         public static  ValidationResult ValidatePrices(Dictionary<string, decimal> prices)
         {

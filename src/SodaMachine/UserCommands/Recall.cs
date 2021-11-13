@@ -1,6 +1,6 @@
 ﻿namespace SodaMachine.UserCommands
 {
-    public class Recall : UserCommand
+    public sealed class Recall : UserCommand
     {
 
     }

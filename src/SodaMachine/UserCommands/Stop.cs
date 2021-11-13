@@ -1,6 +1,6 @@
 ﻿namespace SodaMachine.UserCommands
 {
-    public class Stop : UserCommand
+    public sealed class Stop : UserCommand
     {
         
     }
