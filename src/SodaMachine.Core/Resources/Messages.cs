@@ -26,6 +26,7 @@
         public const string GivingOrderOut = "Giving {0} out.";
         public const string  GivingBalanceOutInChange = "{0} Giving  {1}  out in change.";
         public const string  ReturnBalanceToCustomer = "Returning {0} to customer";
+        public const string  NoMoneyToReturn = "No money on balance to return to customer";
         public const string  CommandIsNotSupported = "Command is not supported, was {0}";
         public const string  ShuttingDown = "Shutting down.";
         public const string UnableToExtractArgument = "Unable to extract argument from command with type {0}";

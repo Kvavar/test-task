@@ -94,7 +94,7 @@ namespace SodaMachine.Core
         {
             lock (_purchaseLocker)
             {
-                var message = string.Format(Messages.ReturnBalanceToCustomer, _balance);
+                var message = _balance > 0 ? string.Format(Messages.ReturnBalanceToCustomer, _balance) : Messages.NoMoneyToReturn;
 
                 _balance = 0;
 

@@ -68,7 +68,7 @@ namespace SodaMachine.UnitTests
         [TestCase("coke", 20)]
         [TestCase("sprite", 15)]
         [TestCase("fanta", 15)]
-        public void TestPurchase_TheLastAvailable(string order, decimal money)
+        public void TestPurchaseByCash_TheLastAvailable(string order, decimal money)
         {
             var prices = new Dictionary<string, decimal> { { order, money } };
             var inventory = new Dictionary<string, int> { { order, 1 } };
@@ -88,7 +88,52 @@ namespace SodaMachine.UnitTests
             Assert.AreEqual(string.Format(Messages.NoOrderAvailable, order), result.Message);
         }
 
-        private Machine CreateNewMachineWith(Dictionary<string, decimal> prices, Dictionary<string, int> inventory)
+        [TestCase("coke", 20)]
+        [TestCase("sprite", 15)]
+        [TestCase("fanta", 15)]
+        public void TestPurchaseBySms_TheLastAvailable(string order, decimal money)
+        {
+            var prices = new Dictionary<string, decimal> { { order, money } };
+            var inventory = new Dictionary<string, int> { { order, 1 } };
+
+            var machine = CreateNewMachineWith(prices, inventory);
+
+            machine.InsertMoney(money);
+            var result = machine.PurchaseBySms(order);
+
+            //the last available item sold successfully
+            Assert.IsTrue(result.IsSuccess);
+
+            machine.InsertMoney(money);
+            result = machine.PurchaseBySms(order);
+            //No items to sell
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual(string.Format(Messages.NoOrderAvailable, order), result.Message);
+        }
+
+        [Test]
+        public void TestRecall_PositiveBalance()
+        {
+            var money = 10;
+            var machine = CreateNewMachineWith(_prices, _inventory);
+            machine.InsertMoney(money);
+            var result = machine.Recall();
+
+            Assert.IsTrue(result.IsSuccess);
+            Assert.AreEqual(string.Format(Messages.ReturnBalanceToCustomer, money), result.Message);
+        }
+
+        [Test]
+        public void TestRecall_ZeroBalance()
+        {
+            var machine = CreateNewMachineWith(_prices, _inventory);
+            var result = machine.Recall();
+
+            Assert.IsTrue(result.IsSuccess);
+            Assert.AreEqual(Messages.NoMoneyToReturn, result.Message);
+        }
+
+        private static Machine CreateNewMachineWith(Dictionary<string, decimal> prices, Dictionary<string, int> inventory)
         {
             var ui = new UserInterface();
             var validator = new InventoryValidator();
