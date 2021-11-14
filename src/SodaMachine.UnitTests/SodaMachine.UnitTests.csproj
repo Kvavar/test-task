@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandParserTests.cs" />
+    <Compile Include="InventoryValidatorTests.cs" />
     <Compile Include="SodaMachineTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

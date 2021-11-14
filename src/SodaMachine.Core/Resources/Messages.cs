@@ -16,9 +16,9 @@
         public const string AmountMustBeGreaterThanZero = "Amount must be greater then zero, was {0}.";
         public const string UnableToParseCommand = "Unable to parse command, was {0}.";
         public const string PricesCannotBeEmpty = "Prices cannot be empty";
-        public const string PriceMustBeGreaterThanZero = "Inventory item price must be greater than zero, was {0}.";
+        public const string PriceMustBeGreaterThanZero = "Inventory item price must be greater than zero, was {0} : {1}.";
         public const string  InventoryCannotBeEmpty = "Inventory cannot be empty";
-        public const string  ItemAmountMustBeGreaterThanZero = "Inventory item amount must be greater than zero, was {0}.";
+        public const string  ItemAmountMustBeGreaterThanZero = "Inventory item amount must be greater than zero, was {0} : {1}.";
         public const string  NoOrderAvailable = "No {0} available in the inventory.";
         public const string  AddedAmountToCredit = "Added {0} to credit.";
         public const string  OnlySmsOrderIsAvailable = "Only SMS order is available for {0}.";

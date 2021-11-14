@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 using SodaMachine.Core;
+using SodaMachine.Core.Resources;
 using SodaMachine.Core.UserInterface;
 
 namespace SodaMachine.UnitTests
@@ -34,27 +35,39 @@ namespace SodaMachine.UnitTests
         [TestCase("coke", 20)]
         [TestCase("sprite", 15)]
         [TestCase("fanta", 15)]
-        public void TestPurchase_EnoughMoney(string order, decimal money)
+        public void TestPurchaseByCash_EnoughMoney(string order, decimal money)
         {
             _machine.InsertMoney(money);
 
             var result = _machine.PurchaseByCash(order);
 
             Assert.IsTrue(result.IsSuccess);
+            Assert.AreEqual(string.Format(Messages.GivingOrderOut, order), result.Message);
         }
 
         [TestCase("coke", 17)]
         [TestCase("sprite", 10)]
         [TestCase("fanta", 5)]
-        public void TestPurchase_NotEnoughMoney(string order, decimal money)
+        public void TestPurchaseByCash_NotEnoughMoney(string order, decimal money)
         {
             _machine.InsertMoney(money);
             var price = _prices[order];
             var result = _machine.PurchaseByCash(order);
 
             Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual(string.Format(Messages.NeedMoreMoney, price - money), result.Message);
+        }
 
-            Assert.IsTrue(result.Message.Contains($"Need {price - money} more."));
+        [TestCase("coke", 17)]
+        [TestCase("sprite", 10)]
+        [TestCase("fanta", 5)]
+        public void TestPurchaseBySms_NotEnoughMoney(string order, decimal money)
+        {
+            _machine.InsertMoney(money);
+            var result = _machine.PurchaseBySms(order);
+
+            Assert.IsTrue(result.IsSuccess);
+            Assert.AreEqual(string.Format(Messages.GivingOrderOut, order), result.Message);
         }
 
         [TestCase("coke", 20)]
@@ -78,8 +91,7 @@ namespace SodaMachine.UnitTests
             result = _machine.PurchaseByCash(order);
             //No items to sell
             Assert.IsFalse(result.IsSuccess);
-
-            Assert.IsTrue(result.Message.Contains($"No {order} available in the inventory."));
+            Assert.AreEqual(string.Format(Messages.NoOrderAvailable, order), result.Message);
         }
     }
 }

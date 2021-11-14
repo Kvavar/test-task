@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using SodaMachine.Core.UserCommands;
 
 namespace SodaMachine.UnitTests
@@ -81,6 +82,25 @@ namespace SodaMachine.UnitTests
             var result = CommandParser.Parse(input);
 
             Assert.IsFalse(result.IsSuccess);
+        }
+
+        [Test]
+        public void TestExtractValidArgCommand()
+        {
+            var order = "coke";
+            var command = new UserArgCommand<string>(CommandType.OrderByCash, order);
+            var arg = CommandParser.ExtractArgumentFrom<string>(command);
+
+            Assert.AreEqual(order, arg);
+        }
+
+        [Test]
+        public void TestExtractInvalidArgCommand()
+        {
+            var order = "coke";
+            var command = new UserArgCommand<string>(CommandType.OrderByCash, order);
+
+            Assert.Throws<InvalidOperationException>(() => CommandParser.ExtractArgumentFrom<decimal>(command));
         }
     }
 }
