@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using SodaMachine.Core.Resources;
 using SodaMachine.Core.UserCommands;
 using SodaMachine.Core.UserInterface;
 
@@ -18,6 +19,9 @@ namespace SodaMachine.Core
             _inventory = new Inventory(inventory, prices);
         }
 
+        /// <summary>
+        /// Allows to add money to balance, Input format - insert amount_decimal
+        /// </summary>
         public CommandResult InsertMoney(decimal amount)
         {
             lock (_purchaseLocker)
@@ -25,9 +29,12 @@ namespace SodaMachine.Core
                 _balance += amount;
             }
 
-            return CommandResult.Success($"Added {amount} to credit.");
+            return CommandResult.Success(string.Format(Messages.AddedAmountToCredit, amount));
         }
 
+        /// <summary>
+        /// Allows to buy items by cash, Input format - order item_name
+        /// </summary>
         public CommandResult PurchaseByCash(string order)
         {
             lock (_purchaseLocker)
@@ -36,14 +43,16 @@ namespace SodaMachine.Core
 
                 if (!_inventory.TryGetPriceFor(order, out var price))
                 {
-                    message = _inventory.CheckAvailability(order) ? $"Only SMS order is available for {order}." : $"No {order} available in the inventory.";
+                    message = _inventory.CheckAvailability(order) 
+                        ? string.Format(Messages.OnlySmsOrderIsAvailable, order) 
+                        : string.Format(Messages.NoOrderAvailable, order);
 
                     return CommandResult.Fail(message);
                 }
 
                 if (_balance < price)
                 {
-                    return CommandResult.Fail($"Need {price - _balance} more.");
+                    return CommandResult.Fail(string.Format(Messages.NeedMoreMoney, price - _balance));
                 }
 
                 if (!_inventory.TryTake(order, out  message))
@@ -51,10 +60,12 @@ namespace SodaMachine.Core
 
                 _balance -= price;
 
-                message = $"Giving {order} out.";
+                message = string.Format(Messages.GivingOrderOut, order);
 
                 if (_balance > 0)
-                    message = $"{message} Giving  {_balance}  out in change.";
+                {
+                    message = string.Format(Messages.GivingBalanceOutInChange, message, _balance);
+                }
 
                 _balance = 0;
 
@@ -62,6 +73,9 @@ namespace SodaMachine.Core
             }
         }
 
+        /// <summary>
+        /// Allows to buy items by sms, no money on balance required, Input format - sms order item_name
+        /// </summary>
         public CommandResult PurchaseBySms(string order)
         {
             lock (_purchaseLocker)
@@ -69,8 +83,8 @@ namespace SodaMachine.Core
                 if (!_inventory.TryTake(order, out var message))
                     return  CommandResult.Fail(message);
 
-                message = $"Giving {order} out.";
-
+                message = string.Format(Messages.GivingOrderOut, order);
+                
                 return CommandResult.Success(message);
             }
         }
@@ -79,7 +93,7 @@ namespace SodaMachine.Core
         {
             lock (_purchaseLocker)
             {
-                var message = $"Returning {_balance} to customer";
+                var message = string.Format(Messages.ReturnBalanceToCustomer, _balance);
 
                 _balance = 0;
 
@@ -87,7 +101,6 @@ namespace SodaMachine.Core
             }
         }
 
-        
         /// <summary>
         /// This is the starter method for the machine
         /// </summary>
@@ -95,22 +108,10 @@ namespace SodaMachine.Core
         {
             while (true)
             {
-                var welcomeMessage = "\n\nAvailable commands:" +
-                                     "\r\ninsert (money) - Money put into money slot" +
-                                     "\r\norder (coke, sprite, fanta) - Order from machines buttons" +
-                                     "\r\nsms order (coke, sprite, fanta) - Order sent by sms" +
-                                     "\r\nrecall - gives money back" +
-                                     "\r\nstop - stops the machine" +
-                                     "\r\n-------" +
-                                     $"\r\nInserted money: {_balance}" +
-                                     "\r\n-------\n\n";
-
-                _ui.Info(welcomeMessage);
-
+                _ui.Info(string.Format(Messages.WelcomeMessage, _balance));
                 var input = Console.ReadLine();
 
                 var parseResult = CommandParser.CommandParser.Parse(input);
-
                 if (!parseResult.IsSuccess)
                 {
                     _ui.Error(parseResult.Message);
@@ -138,12 +139,12 @@ namespace SodaMachine.Core
                 }
                 else if (parseResult.Command is Stop)
                 {
-                    _ui.Info("Shutting down.");
+                    _ui.Info(Messages.ShuttingDown);
                     break;
                 }
                 else
                 {
-                    throw new ArgumentOutOfRangeException($"Command is not supported, was {parseResult.Command.GetType()}");
+                    throw new ArgumentOutOfRangeException(string.Format(Messages.CommandIsNotSupported, parseResult.Command.GetType()));
                 }
 
                 _ui.ShowResult(result);

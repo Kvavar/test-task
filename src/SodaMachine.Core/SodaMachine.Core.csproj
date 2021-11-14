@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Inventory.cs" />
+    <Compile Include="Resources\Messages.cs" />
     <Compile Include="UserCommands\Command.cs" />
     <Compile Include="CommandParser\CommandParser.cs" />
     <Compile Include="UserCommands\CommandResult.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Validation\InventoryValidator.cs" />
     <Compile Include="Validation\ValidationResult.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

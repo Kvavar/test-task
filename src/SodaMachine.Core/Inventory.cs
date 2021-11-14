@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using SodaMachine.Core.Resources;
 using SodaMachine.Core.Validation;
 
 namespace SodaMachine.Core
@@ -47,7 +48,7 @@ namespace SodaMachine.Core
 
             if (!CheckAvailability(order))
             {
-                message = $"No {order} available in the inventory.";
+                message = string.Format(Messages.NoOrderAvailable, order);
 
                 return false;
             }

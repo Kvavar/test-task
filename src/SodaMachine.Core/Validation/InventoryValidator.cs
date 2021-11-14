@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using SodaMachine.Core.Resources;
 
 namespace SodaMachine.Core.Validation
 {
@@ -7,12 +9,16 @@ namespace SodaMachine.Core.Validation
         public static  ValidationResult ValidatePrices(Dictionary<string, decimal> prices)
         {
             if (prices == null || prices.Count < 1)
-                return ValidationResult.Invalid("Prices cannot be empty");
+            {
+                return ValidationResult.Invalid(Messages.PricesCannotBeEmpty);
+            }
 
             foreach (var price in prices)
             {
                 if (price.Value < 0)
-                    return ValidationResult.Invalid($"Inventory item price must be greater than zero, was {price.Value}.");
+                {
+                    return ValidationResult.Invalid(String.Format(Messages.PriceMustBeGreaterThanZero, price));
+                }
             }
 
             return ValidationResult.Valid();
@@ -21,12 +27,16 @@ namespace SodaMachine.Core.Validation
         public static ValidationResult ValidateInventory(Dictionary<string, int> inventory)
         {
             if (inventory == null || inventory.Count < 1)
-                return ValidationResult.Invalid("Inventory cannot be empty");
+            {
+                return ValidationResult.Invalid(Messages.InventoryCannotBeEmpty);
+            }
 
             foreach (var item in inventory)
             {
                 if (item.Value < 1)
-                    return ValidationResult.Invalid($"Inventory item amount must be greater than zero, was {item.Value}.");
+                {
+                    return ValidationResult.Invalid(string.Format(Messages.ItemAmountMustBeGreaterThanZero, item.Value));
+                }
             }
 
             return ValidationResult.Valid();

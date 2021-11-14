@@ -1,4 +1,5 @@
 ﻿using System;
+using SodaMachine.Core.Resources;
 using SodaMachine.Core.UserCommands;
 
 namespace SodaMachine.Core.CommandParser
@@ -8,7 +9,9 @@ namespace SodaMachine.Core.CommandParser
         public static ParseResult Parse(string input)
         {
             if(string.IsNullOrWhiteSpace(input))
-                return ParseResult.Fail("Input cannot be empty.");
+            {
+                return ParseResult.Fail(Messages.InputCannotBeEmpty);
+            }
 
             var args = input.Split(' ');
 
@@ -25,7 +28,7 @@ namespace SodaMachine.Core.CommandParser
             var minArgs = 2;
             if (args.Length < minArgs)
             {
-                return ParseResult.Fail($"Unable to parse command, was {input}.");
+                return ParseResult.Fail(string.Format(Messages.UnableToParseCommand, input));
             }
 
             var commandArgument = args[minArgs - 1];
@@ -35,12 +38,14 @@ namespace SodaMachine.Core.CommandParser
                 if (decimal.TryParse(commandArgument, out var amount))
                 {
                     if (amount <= 0)
-                        ParseResult.Fail($"Amount must be greater then zero, was {amount}.");
+                    {
+                        ParseResult.Fail(string.Format(Messages.AmountMustBeGreaterThanZero, amount));
+                    }
 
                     return ParseResult.Success(new Insert(amount));
                 }
 
-                ParseResult.Fail($"Unable to parse insert command, was {input}.");
+                ParseResult.Fail(string.Format(Messages.UnableToParseCommand, input));
             }
 
             if (input.StartsWith("order", StringComparison.InvariantCultureIgnoreCase))
@@ -51,7 +56,7 @@ namespace SodaMachine.Core.CommandParser
             minArgs = 3;
             if (args.Length < minArgs)
             {
-                return ParseResult.Fail($"Unable to parse command, was {input}.");
+                return ParseResult.Fail(string.Format(Messages.UnableToParseCommand, input));
             }
 
             commandArgument = args[minArgs - 1];
@@ -61,7 +66,7 @@ namespace SodaMachine.Core.CommandParser
                 return ParseResult.Success(new OrderBySms(commandArgument));
             }
 
-            return ParseResult.Fail($"Unable to parse command, was {input}");
+            return ParseResult.Fail(string.Format(Messages.UnableToParseCommand, input));
         }
     }
 }
