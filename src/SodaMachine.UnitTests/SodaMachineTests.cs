@@ -24,6 +24,18 @@ namespace SodaMachine.UnitTests
             { "fanta", 17 }
         };
 
+
+        [TestCase(15, ExpectedResult = true)]
+        [TestCase(-15, ExpectedResult = false)]
+        public bool TestInsertMoney(decimal money)
+        {
+            var machine = CreateNewMachineWith(_prices, _inventory);
+
+            var result = machine.InsertMoney(money);
+
+            return result.IsSuccess;
+        }
+
         [TestCase("coke", 20)]
         [TestCase("sprite", 15)]
         [TestCase("fanta", 15)]

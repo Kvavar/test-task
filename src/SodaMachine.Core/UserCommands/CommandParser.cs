@@ -38,13 +38,13 @@ namespace SodaMachine.Core.UserCommands
                 {
                     if (amount <= 0)
                     {
-                        ParseResult.Fail(string.Format(Messages.AmountMustBeGreaterThanZero, amount));
+                        return ParseResult.Fail(string.Format(Messages.AmountMustBeGreaterThanZero, amount));
                     }
 
                     return ParseResult.Success(new UserArgCommand<decimal>(CommandType.Insert, amount));
                 }
 
-                ParseResult.Fail(string.Format(Messages.UnableToParseCommand, input));
+                return ParseResult.Fail(string.Format(Messages.UnableToParseCommand, input));
             }
 
             if (input.StartsWith("order", StringComparison.InvariantCultureIgnoreCase))
