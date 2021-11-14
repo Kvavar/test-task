@@ -41,27 +41,6 @@ namespace SodaMachine.Core
             _inventory = inventory;
         }
 
-        public void ReplenishInventory(Dictionary<string, int> items)
-        {
-            var validationResult = InventoryValidator.ValidateInventory(items);
-            if (!validationResult.IsValid)
-            {
-                throw new ArgumentException(validationResult.Message);
-            }
-
-            foreach (var item in items)
-            {
-                if (_inventory.ContainsKey(item.Key))
-                {
-                    _inventory[item.Key] += item.Value;
-                }
-                else
-                {
-                    _inventory[item.Key] = item.Value;
-                }
-            }
-        }
-
         public bool TryTake(string order, out string message)
         {
             message = string.Empty;
