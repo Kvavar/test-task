@@ -3,14 +3,13 @@ using NUnit.Framework;
 using SodaMachine.Core;
 using SodaMachine.Core.Resources;
 using SodaMachine.Core.UserInterface;
+using SodaMachine.Core.Validation;
 
 namespace SodaMachine.UnitTests
 {
     [TestFixture]
     public class SodaMachineTests
     {
-        private Machine _machine;
-
         private readonly Dictionary<string, decimal> _prices = new Dictionary<string, decimal>
         {
             { "coke", 20 },
@@ -25,21 +24,15 @@ namespace SodaMachine.UnitTests
             { "fanta", 17 }
         };
 
-        [SetUp]
-        public void Setup()
-        {
-            var ui = new UserInterface();
-            _machine = new Machine(_inventory, _prices, ui);
-        }
-
         [TestCase("coke", 20)]
         [TestCase("sprite", 15)]
         [TestCase("fanta", 15)]
         public void TestPurchaseByCash_EnoughMoney(string order, decimal money)
         {
-            _machine.InsertMoney(money);
+            var machine = CreateNewMachineWith(_prices, _inventory);
+            machine.InsertMoney(money);
 
-            var result = _machine.PurchaseByCash(order);
+            var result = machine.PurchaseByCash(order);
 
             Assert.IsTrue(result.IsSuccess);
             Assert.AreEqual(string.Format(Messages.GivingOrderOut, order), result.Message);
@@ -50,9 +43,10 @@ namespace SodaMachine.UnitTests
         [TestCase("fanta", 5)]
         public void TestPurchaseByCash_NotEnoughMoney(string order, decimal money)
         {
-            _machine.InsertMoney(money);
+            var machine = CreateNewMachineWith(_prices, _inventory);
+            machine.InsertMoney(money);
             var price = _prices[order];
-            var result = _machine.PurchaseByCash(order);
+            var result = machine.PurchaseByCash(order);
 
             Assert.IsFalse(result.IsSuccess);
             Assert.AreEqual(string.Format(Messages.NeedMoreMoney, price - money), result.Message);
@@ -63,8 +57,9 @@ namespace SodaMachine.UnitTests
         [TestCase("fanta", 5)]
         public void TestPurchaseBySms_NotEnoughMoney(string order, decimal money)
         {
-            _machine.InsertMoney(money);
-            var result = _machine.PurchaseBySms(order);
+            var machine = CreateNewMachineWith(_prices, _inventory);
+            machine.InsertMoney(money);
+            var result = machine.PurchaseBySms(order);
 
             Assert.IsTrue(result.IsSuccess);
             Assert.AreEqual(string.Format(Messages.GivingOrderOut, order), result.Message);
@@ -76,22 +71,29 @@ namespace SodaMachine.UnitTests
         public void TestPurchase_TheLastAvailable(string order, decimal money)
         {
             var prices = new Dictionary<string, decimal> { { order, money } };
-            var inventory = new Dictionary<string, int> { { order, 1} };
+            var inventory = new Dictionary<string, int> { { order, 1 } };
 
-            var ui = new UserInterface();
-            _machine = new Machine(inventory, prices, ui);
+            var machine = CreateNewMachineWith(prices, inventory);
 
-            _machine.InsertMoney(money);
-            var result = _machine.PurchaseByCash(order);
+            machine.InsertMoney(money);
+            var result = machine.PurchaseByCash(order);
 
             //the last available item sold successfully
             Assert.IsTrue(result.IsSuccess);
 
-            _machine.InsertMoney(money);
-            result = _machine.PurchaseByCash(order);
+            machine.InsertMoney(money);
+            result = machine.PurchaseByCash(order);
             //No items to sell
             Assert.IsFalse(result.IsSuccess);
             Assert.AreEqual(string.Format(Messages.NoOrderAvailable, order), result.Message);
+        }
+
+        private Machine CreateNewMachineWith(Dictionary<string, decimal> prices, Dictionary<string, int> inventory)
+        {
+            var ui = new UserInterface();
+            var validator = new InventoryValidator();
+
+            return new Machine(inventory, prices, ui, validator);
         }
     }
 }

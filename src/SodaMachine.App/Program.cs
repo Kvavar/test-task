@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using SodaMachine.Core;
 using SodaMachine.Core.UserInterface;
+using SodaMachine.Core.Validation;
 
 namespace SodaMachine.App
 {
@@ -23,8 +24,8 @@ namespace SodaMachine.App
             };
 
             var ui = new UserInterface();
-
-            var sodaMachine = new Machine(inventory, prices, ui);
+            var validator = new InventoryValidator();
+            var sodaMachine = new Machine(inventory, prices, ui, validator);
 
             sodaMachine.Start();
         }

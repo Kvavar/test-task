@@ -4,9 +4,9 @@ using SodaMachine.Core.Resources;
 
 namespace SodaMachine.Core.Validation
 {
-    public static class InventoryValidator
+    public class InventoryValidator : IInventoryValidator
     {
-        public static  ValidationResult ValidatePrices(Dictionary<string, decimal> prices)
+        public ValidationResult ValidatePrices(Dictionary<string, decimal> prices)
         {
             if (prices == null || prices.Count < 1)
             {
@@ -17,14 +17,14 @@ namespace SodaMachine.Core.Validation
             {
                 if (price.Value < 0)
                 {
-                    return ValidationResult.Invalid(String.Format(Messages.PriceMustBeGreaterThanZero, price));
+                    return ValidationResult.Invalid(string.Format(Messages.PriceMustBeGreaterThanZero, price.Key, price.Value));
                 }
             }
 
             return ValidationResult.Valid();
         }
 
-        public static ValidationResult ValidateInventory(Dictionary<string, int> inventory)
+        public ValidationResult ValidateInventory(Dictionary<string, int> inventory)
         {
             if (inventory == null || inventory.Count < 1)
             {
@@ -35,7 +35,7 @@ namespace SodaMachine.Core.Validation
             {
                 if (item.Value < 1)
                 {
-                    return ValidationResult.Invalid(string.Format(Messages.ItemAmountMustBeGreaterThanZero, item.Value));
+                    return ValidationResult.Invalid(string.Format(Messages.ItemAmountMustBeGreaterThanZero, item.Key, item.Value));
                 }
             }
 

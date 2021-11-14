@@ -8,6 +8,8 @@ namespace SodaMachine.UnitTests
     [TestFixture]
     public class InventoryValidatorTests
     {
+        private readonly IInventoryValidator _validator = new InventoryValidator();
+
         [Test]
         public void TestValidatePrices_ValidPrices()
         {
@@ -17,7 +19,7 @@ namespace SodaMachine.UnitTests
                 { "fanta", 23 }
             };
 
-            var result = InventoryValidator.ValidatePrices(prices);
+            var result = _validator.ValidatePrices(prices);
             Assert.IsTrue(result.IsValid);
         }
 
@@ -26,7 +28,7 @@ namespace SodaMachine.UnitTests
         {
             var prices = new Dictionary<string, decimal>();
 
-            var result = InventoryValidator.ValidatePrices(prices);
+            var result = _validator.ValidatePrices(prices);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(Messages.PricesCannotBeEmpty, result.Message);
         }
@@ -42,7 +44,7 @@ namespace SodaMachine.UnitTests
                 { item, negativePrice }
             };
 
-            var result = InventoryValidator.ValidatePrices(prices);
+            var result = _validator.ValidatePrices(prices);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(string.Format(Messages.PriceMustBeGreaterThanZero, item, negativePrice), result.Message);
         }
@@ -56,7 +58,7 @@ namespace SodaMachine.UnitTests
                 { "fanta", 10 }
             };
 
-            var result = InventoryValidator.ValidateInventory(inventory);
+            var result = _validator.ValidateInventory(inventory);
             Assert.IsTrue(result.IsValid);
         }
 
@@ -65,7 +67,7 @@ namespace SodaMachine.UnitTests
         {
             var inventory = new Dictionary<string, int>();
 
-            var result = InventoryValidator.ValidateInventory(inventory);
+            var result = _validator.ValidateInventory(inventory);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(Messages.InventoryCannotBeEmpty, result.Message);
         }
@@ -81,7 +83,7 @@ namespace SodaMachine.UnitTests
                 { item, negativeAmount }
             };
 
-            var result = InventoryValidator.ValidateInventory(inventory);
+            var result = _validator.ValidateInventory(inventory);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(string.Format(Messages.ItemAmountMustBeGreaterThanZero, item, negativeAmount), result.Message);
         }

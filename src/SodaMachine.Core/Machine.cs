@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using SodaMachine.Core.Resources;
 using SodaMachine.Core.UserCommands;
 using SodaMachine.Core.UserInterface;
+using SodaMachine.Core.Validation;
 
 namespace SodaMachine.Core
 {
@@ -13,10 +14,10 @@ namespace SodaMachine.Core
         private decimal _balance;
         private readonly Inventory _inventory;
 
-        public Machine(Dictionary<string, int> inventory, Dictionary<string, decimal> prices, IUserInterface ui)
+        public Machine(Dictionary<string, int> inventory, Dictionary<string, decimal> prices, IUserInterface ui, IInventoryValidator validator)
         {
             _ui = ui;
-            _inventory = new Inventory(inventory, prices);
+            _inventory = new Inventory(inventory, prices, validator);
         }
 
         /// <summary>
