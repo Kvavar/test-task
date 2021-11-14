@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using SodaMachine.Core.CommandParser;
 using SodaMachine.Core.UserCommands;
 
 namespace SodaMachine.UnitTests
@@ -15,10 +14,9 @@ namespace SodaMachine.UnitTests
             var result = CommandParser.Parse(input);
 
             Assert.IsTrue(result.IsSuccess);
-            Assert.IsInstanceOf<Insert>(result.Command);
-            var command = result.Command as Insert;
-            Assert.NotNull(command);
-            Assert.AreEqual(money, command.Amount);
+            Assert.AreEqual(CommandType.Insert, result.Command.Type);
+            var amount = CommandParser.ExtractArgumentFrom<decimal>(result.Command);
+            Assert.AreEqual(money, amount);
         }
 
         [Test]
@@ -29,10 +27,9 @@ namespace SodaMachine.UnitTests
             var result = CommandParser.Parse(input);
 
             Assert.IsTrue(result.IsSuccess);
-            Assert.IsInstanceOf<OrderByCash>(result.Command);
-            var command = result.Command as OrderByCash;
-            Assert.NotNull(command);
-            Assert.AreEqual(item, command.Order);
+            Assert.AreEqual(CommandType.OrderByCash, result.Command.Type);
+            var order = CommandParser.ExtractArgumentFrom<string>(result.Command);
+            Assert.AreEqual(item, order);
         }
 
         [Test]
@@ -43,10 +40,9 @@ namespace SodaMachine.UnitTests
             var result = CommandParser.Parse(input);
 
             Assert.IsTrue(result.IsSuccess);
-            Assert.IsInstanceOf<OrderBySms>(result.Command);
-            var command = result.Command as OrderBySms;
-            Assert.NotNull(command);
-            Assert.AreEqual(item, command.Order);
+            Assert.AreEqual(CommandType.OrderBySms, result.Command.Type);
+            var order = CommandParser.ExtractArgumentFrom<string>(result.Command);
+            Assert.AreEqual(item, order);
         }
 
         [Test]
@@ -56,7 +52,7 @@ namespace SodaMachine.UnitTests
             var result = CommandParser.Parse(input);
 
             Assert.IsTrue(result.IsSuccess);
-            Assert.IsInstanceOf<Recall>(result.Command);
+            Assert.AreEqual(CommandType.Recall, result.Command.Type);
         }
 
         [Test]
@@ -66,7 +62,7 @@ namespace SodaMachine.UnitTests
             var result = CommandParser.Parse(input);
 
             Assert.IsTrue(result.IsSuccess);
-            Assert.IsInstanceOf<Stop>(result.Command);
+            Assert.AreEqual(CommandType.Stop, result.Command.Type);
         }
 
         [Test]

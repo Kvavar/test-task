@@ -28,5 +28,6 @@
         public const string  ReturnBalanceToCustomer = "Returning {0} to customer";
         public const string  CommandIsNotSupported = "Command is not supported, was {0}";
         public const string  ShuttingDown = "Shutting down.";
+        public const string UnableToExtractArgument = "Unable to extract argument from command with type {0}";
     }
 }

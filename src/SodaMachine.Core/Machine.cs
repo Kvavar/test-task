@@ -111,7 +111,7 @@ namespace SodaMachine.Core
                 _ui.Info(string.Format(Messages.WelcomeMessage, _balance));
                 var input = Console.ReadLine();
 
-                var parseResult = CommandParser.CommandParser.Parse(input);
+                var parseResult = CommandParser.Parse(input);
                 if (!parseResult.IsSuccess)
                 {
                     _ui.Error(parseResult.Message);
@@ -119,32 +119,33 @@ namespace SodaMachine.Core
                 }
 
                 CommandResult result;
+                var command = parseResult.Command;
 
-                if (parseResult.Command is Insert insert)
-                {
-                    result = InsertMoney(insert.Amount);
-                    _ui.ShowResult(result);
-                }
-                else if (parseResult.Command is OrderByCash orderByCash)
-                {
-                    result = PurchaseByCash(orderByCash.Order);
-                }
-                else if (parseResult.Command is OrderBySms orderBySms)
-                {
-                    result = PurchaseBySms(orderBySms.Order);
-                }
-                else if (parseResult.Command is Recall)
-                {
-                    result = Recall();
-                }
-                else if (parseResult.Command is Stop)
+                if (command.Type == CommandType.Stop)
                 {
                     _ui.Info(Messages.ShuttingDown);
                     break;
                 }
-                else
+
+                switch (command.Type)
                 {
-                    throw new ArgumentOutOfRangeException(string.Format(Messages.CommandIsNotSupported, parseResult.Command.GetType()));
+                    case CommandType.Insert:
+                        var amount = CommandParser.ExtractArgumentFrom<decimal>(command);
+                        result = InsertMoney(amount);
+                        break;
+                    case CommandType.OrderByCash:
+                        var orderByCash = CommandParser.ExtractArgumentFrom<string>(command);
+                        result = PurchaseByCash(orderByCash);
+                        break;
+                    case CommandType.OrderBySms:
+                        var orderBySms = CommandParser.ExtractArgumentFrom<string>(command);
+                        result = PurchaseBySms(orderBySms);
+                        break;
+                    case CommandType.Recall:
+                        result = Recall();
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(string.Format(Messages.CommandIsNotSupported, command.Type));
                 }
 
                 _ui.ShowResult(result);

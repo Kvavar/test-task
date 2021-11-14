@@ -55,18 +55,15 @@
   <ItemGroup>
     <Compile Include="Inventory.cs" />
     <Compile Include="Resources\Messages.cs" />
-    <Compile Include="UserCommands\Command.cs" />
-    <Compile Include="CommandParser\CommandParser.cs" />
+    <Compile Include="UserCommands\CommandType.cs" />
+    <Compile Include="UserCommands\CommandParser.cs" />
     <Compile Include="UserCommands\CommandResult.cs" />
-    <Compile Include="UserCommands\Insert.cs" />
+    <Compile Include="UserCommands\UserArgCommand.cs" />
+    <Compile Include="UserCommands\UserCommand.cs" />
     <Compile Include="UserInterface\IUserInterface.cs" />
-    <Compile Include="CommandParser\ParseResult.cs" />
-    <Compile Include="UserCommands\Stop.cs" />
+    <Compile Include="UserCommands\ParseResult.cs" />
     <Compile Include="UserInterface\UserInterface.cs" />
-    <Compile Include="UserCommands\OrderByCash.cs" />
-    <Compile Include="UserCommands\OrderBySms.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserCommands\Recall.cs" />
     <Compile Include="Machine.cs" />
     <Compile Include="Validation\InventoryValidator.cs" />
     <Compile Include="Validation\ValidationResult.cs" />

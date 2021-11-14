@@ -1,8 +1,7 @@
 ﻿using System;
 using SodaMachine.Core.Resources;
-using SodaMachine.Core.UserCommands;
 
-namespace SodaMachine.Core.CommandParser
+namespace SodaMachine.Core.UserCommands
 {
     public class CommandParser
     {
@@ -17,12 +16,12 @@ namespace SodaMachine.Core.CommandParser
 
             if (input.StartsWith("stop", StringComparison.InvariantCultureIgnoreCase))
             {
-                return ParseResult.Success(new Stop());
+                return ParseResult.Success(new UserCommand(CommandType.Stop));
             }
 
             if (input.StartsWith("recall", StringComparison.InvariantCultureIgnoreCase))
             {
-                return ParseResult.Success(new Recall());
+                return ParseResult.Success(new UserCommand(CommandType.Recall));
             }
 
             var minArgs = 2;
@@ -42,7 +41,7 @@ namespace SodaMachine.Core.CommandParser
                         ParseResult.Fail(string.Format(Messages.AmountMustBeGreaterThanZero, amount));
                     }
 
-                    return ParseResult.Success(new Insert(amount));
+                    return ParseResult.Success(new UserArgCommand<decimal>(CommandType.Insert, amount));
                 }
 
                 ParseResult.Fail(string.Format(Messages.UnableToParseCommand, input));
@@ -50,7 +49,7 @@ namespace SodaMachine.Core.CommandParser
 
             if (input.StartsWith("order", StringComparison.InvariantCultureIgnoreCase))
             {
-                return ParseResult.Success(new OrderByCash(commandArgument));
+                return ParseResult.Success(new UserArgCommand<string>(CommandType.OrderByCash, commandArgument.ToLowerInvariant()));
             }
 
             minArgs = 3;
@@ -63,10 +62,20 @@ namespace SodaMachine.Core.CommandParser
 
             if (input.StartsWith("sms order", StringComparison.InvariantCultureIgnoreCase))
             {
-                return ParseResult.Success(new OrderBySms(commandArgument));
+                return ParseResult.Success(new UserArgCommand<string>(CommandType.OrderBySms, commandArgument.ToLowerInvariant()));
             }
 
             return ParseResult.Fail(string.Format(Messages.UnableToParseCommand, input));
+        }
+
+        public static T ExtractArgumentFrom<T>(UserCommand command)
+        {
+            if (command is UserArgCommand<T> argCommand)
+            {
+                return argCommand.Arg;
+            }
+
+            throw new InvalidOperationException(string.Format(Messages.UnableToExtractArgument, command.Type));
         }
     }
 }

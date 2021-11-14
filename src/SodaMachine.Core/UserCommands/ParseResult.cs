@@ -1,6 +1,4 @@
-﻿using SodaMachine.Core.UserCommands;
-
-namespace SodaMachine.Core.CommandParser
+﻿namespace SodaMachine.Core.UserCommands
 {
     public class ParseResult
     {
