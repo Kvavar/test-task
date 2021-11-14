@@ -67,6 +67,15 @@ namespace SodaMachine.UnitTests
         }
 
         [Test]
+        public void TestNegativeInsertCommand()
+        {
+            var input = "insert -100";
+            var result = CommandParser.Parse(input);
+
+            Assert.IsFalse(result.IsSuccess);
+        }
+
+        [Test]
         public void TestInvalidInsertCommand()
         {
             var input = "insert money";

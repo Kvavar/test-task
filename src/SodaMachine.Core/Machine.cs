@@ -25,9 +25,6 @@ namespace SodaMachine.Core
         /// </summary>
         public CommandResult InsertMoney(decimal amount)
         {
-            if (amount <= 0)
-                return CommandResult.Fail(string.Format(Messages.AmountMustBeGreaterThanZero, amount));
-
             lock (_purchaseLocker)
             {
                 _balance += amount;
